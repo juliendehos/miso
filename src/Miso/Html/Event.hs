@@ -171,8 +171,8 @@ onKeyUp :: (KeyCode -> action) -> Attribute action
 onKeyUp f = on "keyup" keycodeDecoder (\action _ -> f action)
 -----------------------------------------------------------------------------
 -- | https://developer.mozilla.org/en-US/docs/Web/Events/mouseup
-onMouseUp :: action -> Attribute action
-onMouseUp action = on "mouseup" emptyDecoder $ \() _ -> action
+onMouseUp :: (MouseEvent -> action) -> Attribute action
+onMouseUp f = on "mouseup" mouseDecoder $ \action _ -> f action
 -----------------------------------------------------------------------------
 -- | https://developer.mozilla.org/en-US/docs/Web/Events/mousedown
 onMouseDown :: action -> Attribute action

@@ -23,6 +23,7 @@ module Miso.Event.Decoder
   , keyInfoDecoder
   , checkedDecoder
   , valueDecoder
+  , mouseDecoder
   , pointerDecoder
   ) where
 -----------------------------------------------------------------------------
@@ -108,6 +109,18 @@ checkedDecoder = Decoder {..}
     decodeAt = DecodeTarget ["target"]
     decoder = withObject "target" $ \o ->
       Checked <$> (o .: "checked")
+-----------------------------------------------------------------------------
+-- | Mouse decoder for use with events like "onmouseup"
+mouseDecoder :: Decoder MouseEvent
+mouseDecoder = Decoder {..}
+  where
+    pair o x y = liftA2 (,) (o .: x) (o .: y)
+    decodeAt = DecodeTarget mempty
+    decoder = withObject "mouseDecoder" $ \o ->
+      MouseEvent
+        <$> o .: "button"
+        <*> o .: "buttons"
+        <*> pair o "clientX" "clientY"
 -----------------------------------------------------------------------------
 -- | Pointer decoder for use with events like "onpointerover"
 pointerDecoder :: Decoder PointerEvent

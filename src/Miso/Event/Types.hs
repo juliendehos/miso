@@ -21,6 +21,8 @@ module Miso.Event.Types
   , KeyCode (..)
     -- *** CheckedEvent
   , Checked (..)
+    -- *** MouseEvent
+  , MouseEvent(..)
     -- *** PointerEvent
   , PointerEvent(..)
   , PointerType(..)
@@ -60,6 +62,17 @@ newtype KeyCode = KeyCode Int
 -- | Type used for Checkbox events.
 newtype Checked = Checked Bool
   deriving (Show, Eq, Ord, FromJSON)
+-----------------------------------------------------------------------------
+-- | Type used for Pointer events.
+-- <>https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+data MouseEvent
+  = MouseEvent
+  { mouseButton :: Int
+  , mouseButtons :: Int
+  , mouseClient :: (Double, Double)
+  -- ^ clientX, clientY
+  } deriving (Show, Eq)
+
 -----------------------------------------------------------------------------
 -- | Type used for Pointer events.
 -- <https://w3c.github.io/pointerevents>
