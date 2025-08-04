@@ -147,6 +147,8 @@ data CSS
 data JS
   = Src MisoString
   -- ^ 'src' is a URL meant to link to hosted JS
+  | SrcModule MisoString
+  -- ^ 'src' is a URL meant to link to hosted JS module
   | Script MisoString
   -- ^ 'script' is meant to be raw JS in a 'script' tag
   | ImportMap [(MisoString,MisoString)]

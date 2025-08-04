@@ -76,6 +76,7 @@ module Miso.FFI.Internal
    , addStyleSheet
    -- * JS
    , addSrc
+   , addSrcModule
    , addScript
    , addScriptImportMap
    -- * XHR
@@ -466,7 +467,7 @@ addScript js_ = do
 -----------------------------------------------------------------------------
 -- | Appends a 'script_' element containing a JS import map.
 --
--- > addScript "{ \"import\" : { \"three\" : \"url\" } }"
+-- > addScript "{ \"imports\" : { \"three\" : \"url\" } }"
 --
 addScriptImportMap :: MisoString -> JSM JSVal
 addScriptImportMap impMap = do
@@ -474,6 +475,17 @@ addScriptImportMap impMap = do
   (script <# "type") "importmap"
   (script <# "innerHTML") impMap
   jsg "document" ! "head" # "appendChild" $ [script]
+-----------------------------------------------------------------------------
+-- | Appends a \<script\> element (linking to a JS module) to 'head_'
+--
+-- > addSrcModule "https://example.com/script.js"
+--
+addSrcModule :: MisoString -> JSM JSVal
+addSrcModule url = do
+  link <- jsg "document" # "createElement" $ ["script"]
+  (link <# "type") "module"
+  _ <- link # "setAttribute" $ ["src", fromMisoString url]
+  jsg "document" ! "head" # "appendChild" $ [link]
 -----------------------------------------------------------------------------
 -- | Appends a \<script\> element to 'head_'
 --

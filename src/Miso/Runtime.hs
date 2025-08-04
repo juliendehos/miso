@@ -687,6 +687,8 @@ renderScripts scripts =
   forM scripts $ \case
     Src src ->
       FFI.addSrc src
+    SrcModule src ->
+      FFI.addSrcModule src
     Script script ->
       FFI.addScript script
     ImportMap importMap -> do
