@@ -693,9 +693,11 @@ renderScripts scripts =
       o <- create
       forM_ importMap $ \(k,v) ->
         FFI.set k v o
+      o' <- create
+      FFI.set "imports" o o'
       FFI.addScriptImportMap
         =<< fromJSValUnchecked
-        =<< (jsg @MisoString "JSON" # ("stringify" :: MisoString) $ [o])
+        =<< (jsg @MisoString "JSON" # ("stringify" :: MisoString) $ [o'])
 -----------------------------------------------------------------------------
 -- | Starts a named 'Sub' dynamically, during the life of a 'Component'.
 -- The 'Sub' can be stopped by calling @Ord subKey => stop subKey@ from the 'update' function.
